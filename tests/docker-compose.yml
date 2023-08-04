@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+  mysqldata:
+    image: mysql:5.7
+    command: /bin/true
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    env_file:
+      - .env
+    volumes_from:
+      - mysqldata
+
+  web:
+    image: elestio4test/huginn:${SOFTWARE_VERSION_TAG}
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env 
+    depends_on:
+      - mysql
+
+  threaded:
+    image: elestio4test/huginn:${SOFTWARE_VERSION_TAG}
+    command: /scripts/init bin/threaded.rb
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+      - web
