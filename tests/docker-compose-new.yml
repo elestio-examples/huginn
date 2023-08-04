@@ -17,7 +17,7 @@ services:
     image: elestio4test/huginn:${SOFTWARE_VERSION_TAG}
     restart: always
     ports:
-      - "3000:3000"
+      - "172.17.0.1:3000:3000"
     env_file:
       - .env 
     depends_on:
