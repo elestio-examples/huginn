@@ -64,7 +64,7 @@ services:
     image: elestio4test/huginn
     restart: always
     ports:
-      - "172.17.0.1:3000:3000"
+      - "172.17.0.1:3001:3000"
     env_file:
       - ../mysql.env
       - ../secrets.env
