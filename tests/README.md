@@ -40,7 +40,7 @@ Run the project with the following command
 
     docker-compose up -d
 
-You can access the Web UI at: `http://your-domain:3000`
+You can access the Web UI at: `http://your-domain:3001`
 
 ## Docker-compose
 
@@ -64,7 +64,7 @@ services:
     image: elestio4test/huginn
     restart: always
     ports:
-      - "3000:3000"
+      - "172.17.0.1:3000:3000"
     env_file:
       - ../mysql.env
       - ../secrets.env

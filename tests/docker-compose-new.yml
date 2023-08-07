@@ -1,5 +1,4 @@
 version: '3.3'
-
 services:
   mysqldata:
     image: mysql:5.7
@@ -14,17 +13,17 @@ services:
       - mysqldata
 
   web:
-    image: elestio4test/huginn:${SOFTWARE_VERSION_TAG}
+    image: huginn-test
     restart: always
     ports:
-      - "172.17.0.1:3000:3000"
+      - "172.17.0.1:3001:3000"
     env_file:
       - .env 
     depends_on:
       - mysql
 
   threaded:
-    image: elestio4test/huginn:${SOFTWARE_VERSION_TAG}
+    image: 
     command: /scripts/init bin/threaded.rb
     restart: always
     env_file:

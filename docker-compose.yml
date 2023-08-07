@@ -3,6 +3,8 @@ version: '3.3'
 services:
   mysqldata:
     image: mysql:5.7
+    restart: always
+  
     command: /bin/true
 
   mysql:
@@ -14,10 +16,10 @@ services:
       - mysqldata
 
   web:
-    image: ghcr.io/huginn/huginn-single-process
+    image: huginn-test
     restart: always
     ports:
-      - "3000:3000"
+      - "172.17.0.1:3001:3000"
     env_file:
       - mysql.env
       - secrets.env
@@ -25,7 +27,7 @@ services:
       - mysql
 
   threaded:
-    image: ghcr.io/huginn/huginn-single-process
+    image: huginn-test
     command: /scripts/init bin/threaded.rb
     restart: always
     env_file:
