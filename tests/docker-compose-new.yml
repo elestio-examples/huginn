@@ -13,7 +13,7 @@ services:
       - mysqldata
 
   web:
-    image: huginn-test
+    image: elestio4test/huginn:${SOFTWARE_VERSION_TAG}
     restart: always
     ports:
       - "172.17.0.1:3001:3000"
