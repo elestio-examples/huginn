@@ -23,7 +23,7 @@ services:
       - mysql
 
   threaded:
-    image: 
+    image: elestio4test/huginn:${SOFTWARE_VERSION_TAG}
     command: /scripts/init bin/threaded.rb
     restart: always
     env_file:
