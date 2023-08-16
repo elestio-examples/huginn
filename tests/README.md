@@ -40,55 +40,91 @@ Run the project with the following command
 
     docker-compose up -d
 
-You can access the Web UI at: `http://your-domain:3001`
+You can access the Web UI at: `http://your-domain:4678`
 
 ## Docker-compose
 
 Here are some example snippets to help you get started creating a container.
-version: '3.3'
+version: "3.3"
 
 services:
-  mysqldata:
-    image: mysql:5.7
-    command: /bin/true
+mysqldata:
+image: elestio/mysql:8.0
+restart: always
 
-  mysql:
-    image: mysql:5.7
-    restart: always
-    env_file:
-      - ../mysql.env
-    volumes_from:
-      - mysqldata
+      command: /bin/true
 
-  web:
-    image: elestio4test/huginn
-    restart: always
-    ports:
-      - "172.17.0.1:3001:3000"
-    env_file:
-      - ../mysql.env
-      - ../secrets.env
-    depends_on:
-      - mysql
+    mysql:
+      image: elestio/mysql:8.0
+      restart: always
+      environment:
+        - MYSQL_DATABASE=huginn
+        - MYSQL_USER=huginn
+        - MYSQL_PASSWORD=${ADMIN_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${ADMIN_PASSWORD}
+      volumes:
+        - ./mysqldata:/var/lib/mysql
 
-  threaded:
-    image: ghcr.io/huginn/huginn-single-process
-    command: /scripts/init bin/threaded.rb
-    restart: always
-    env_file:
-      - ../mysql.env
-      - ../secrets.env
-    depends_on:
-      - mysql
-      - web
-   
+    web:
+      image: elestio4test/huginn:${SOFTWARE_VERSION_TAG}
+      restart: always
+      ports:
+        - "172.17.0.1:4678:3000"
+      environment:
+        - DATABASE_NAME=huginn
+        - DATABASE_USERNAME=huginn
+        - DATABASE_PASSWORD=${ADMIN_PASSWORD}
+        - APP_SECRET_TOKEN=${APP_SECRET_TOKEN}
+        - MYSQL_PORT_3306_TCP_ADDR=mysql
+        - HUGINN_DATABASE_PASSWORD=${ADMIN_PASSWORD}
+        - HUGINN_DATABASE_USERNAME=root
+        - HUGINN_DATABASE_NAME=huginn
+        - SMTP_USER_NAME=""
+        - SMTP_PASSWORD=""
+        - SMTP_SERVER=${SMTP_SERVER}
+        - SMTP_PORT=${SMTP_PORT}
+        - SMTP_AUTHENTICATION=login
+        - SMTP_ENABLE_STARTTLS_AUTO=SMTP_ENABLE_STARTTLS_AUTO
+        - EMAIL_FROM_ADDRESS=${EMAIL_FROM_ADDRESS}
+      depends_on:
+        - mysql
+
+    threaded:
+      image: elestio4test/huginn:${SOFTWARE_VERSION_TAG}
+      command: /scripts/init bin/threaded.rb
+      restart: always
+      environment:
+        - DATABASE_NAME=huginn
+        - DATABASE_USERNAME=huginn
+        - DATABASE_PASSWORD=${ADMIN_PASSWORD}
+        - APP_SECRET_TOKEN=${APP_SECRET_TOKEN}
+        - MYSQL_PORT_3306_TCP_ADDR=mysql
+        - HUGINN_DATABASE_PASSWORD=${ADMIN_PASSWORD}
+        - HUGINN_DATABASE_USERNAME=root
+        - HUGINN_DATABASE_NAME=huginn
+        - SMTP_USER_NAME=""
+        - SMTP_PASSWORD=""
+        - SMTP_SERVER=${SMTP_SERVER}
+        - SMTP_PORT=${SMTP_PORT}
+        - SMTP_AUTHENTICATION=login
+        - SMTP_ENABLE_STARTTLS_AUTO=SMTP_ENABLE_STARTTLS_AUTO
+        - EMAIL_FROM_ADDRESS=${EMAIL_FROM_ADDRESS}
+      depends_on:
+        - mysql
+        - web
+
 ### Environment variables
 
-|       Variable       | Value (example) |
-| :------------------: | :-------------: |
-| SOFTWARE_VERSION_TAG |     latest      |
-|     ADMIN_LOGIN      |      root       |
-|    ADMIN_PASSWORD    |  your-password  |
+|         Variable          |              Value (example)              |
+| :-----------------------: | :---------------------------------------: |
+|   SOFTWARE_VERSION_TAG    |                  latest                   |
+|        ADMIN_EMAIL        |              your@email.com               |
+|      ADMIN_PASSWORD       |          GCdsZwHJ-c4ew-jzO5EvcX           |
+|     APP_SECRET_TOKEN      | a-long-random-password-with-128-character |
+|        SMTP_SERVER        |                172.17.0.1                 |
+|         SMTP_PORT         |                    25                     |
+| SMTP_ENABLE_STARTTLS_AUTO |                   false                   |
+|    EMAIL_FROM_ADDRESS     |             sender@email.com              |
 
 # Maintenance
 
