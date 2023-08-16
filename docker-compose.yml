@@ -19,7 +19,7 @@ services:
       - ./mysqldata:/var/lib/mysql
 
   web:
-    image: elestio4test/huginn:${SOFTWARE_VERSION_TAG}
+    image: elestio/huginn:${SOFTWARE_VERSION_TAG}
     restart: always
     ports:
       - "172.17.0.1:4678:3000"
@@ -37,13 +37,13 @@ services:
       - SMTP_SERVER=${SMTP_SERVER}
       - SMTP_PORT=${SMTP_PORT}
       - SMTP_AUTHENTICATION=login
-      - SMTP_ENABLE_STARTTLS_AUTO=${SMTP_ENABLE_STARTTLS_AUTO}
+      - SMTP_ENABLE_STARTTLS_AUTO="false"
       - EMAIL_FROM_ADDRESS=${EMAIL_FROM_ADDRESS}
     depends_on:
       - mysql
 
   threaded:
-    image: elestio4test/huginn:${SOFTWARE_VERSION_TAG}
+    image: elestio/huginn:${SOFTWARE_VERSION_TAG}
     command: /scripts/init bin/threaded.rb
     restart: always
     environment:
@@ -60,7 +60,7 @@ services:
       - SMTP_SERVER=${SMTP_SERVER}
       - SMTP_PORT=${SMTP_PORT}
       - SMTP_AUTHENTICATION=login
-      - SMTP_ENABLE_STARTTLS_AUTO=${SMTP_ENABLE_STARTTLS_AUTO}
+      - SMTP_ENABLE_STARTTLS_AUTO="false"
       - EMAIL_FROM_ADDRESS=${EMAIL_FROM_ADDRESS}
     depends_on:
       - mysql
