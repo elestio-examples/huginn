@@ -79,6 +79,7 @@ restart: always
         - HUGINN_DATABASE_PASSWORD=${ADMIN_PASSWORD}
         - HUGINN_DATABASE_USERNAME=root
         - HUGINN_DATABASE_NAME=huginn
+        - SMTP_DOMAIN=${SMTP_DOMAIN}
         - SMTP_USER_NAME=""
         - SMTP_PASSWORD=""
         - SMTP_SERVER=${SMTP_SERVER}
@@ -102,6 +103,7 @@ restart: always
         - HUGINN_DATABASE_PASSWORD=${ADMIN_PASSWORD}
         - HUGINN_DATABASE_USERNAME=root
         - HUGINN_DATABASE_NAME=huginn
+        - SMTP_DOMAIN=${SMTP_DOMAIN}
         - SMTP_USER_NAME=""
         - SMTP_PASSWORD=""
         - SMTP_SERVER=${SMTP_SERVER}
@@ -125,6 +127,7 @@ restart: always
 |         SMTP_PORT         |                    25                     |
 | SMTP_ENABLE_STARTTLS_AUTO |                   false                   |
 |    EMAIL_FROM_ADDRESS     |             sender@email.com              |
+|        SMTP_DOMAIN        |                your.domain                |
 
 # Maintenance
 

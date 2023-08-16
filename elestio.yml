@@ -40,7 +40,9 @@ environments:
   - key: "SMTP_ENABLE_STARTTLS_AUTO"
     value: "false"
   - key: "EMAIL_FROM_ADDRESS"
-    value: "[CI_CD_DOMAIN]@vm.elestio.app"
+    value: "[DOMAIN]@vm.elestio.app"
+  - key: "SMTP_DOMAIN"
+    value: "[CI_CD_DOMAIN]"
 config:
   runTime: "dockerCompose"
   version: ""
