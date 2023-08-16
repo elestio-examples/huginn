@@ -62,7 +62,3 @@ webUI:
     label: "Huginn"
     username: "[ADMIN_EMAIL]"
     password: "[ADMIN_PASSWORD]"
-  - url: "https://[CI_CD_DOMAIN]"
-    label: "PHPMyAdmin"
-    username: "root"
-    password: "[ADMIN_PASSWORD]"
